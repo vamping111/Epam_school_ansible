@@ -1,0 +1,15 @@
+---
+- name: Dropping of the Web server
+  hosts: all
+  become: yes
+
+
+  tasks:
+  - name: Dropping of the httpd
+    yum: name=httpd state=removed
+
+  - name: Dropping of the page
+    shell: 'rm -f /var/www/html/index.html'
+
+  - name: Closing of the ports
+    firewalld: service=http permanent=yes state=disabled 

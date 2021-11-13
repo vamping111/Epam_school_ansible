@@ -1,0 +1,24 @@
+---
+- name: Install httpd web server
+  hosts: all
+  become: yes
+
+
+  tasks:
+  - name: Install httpd web server
+    yum: name=httpd state=latest
+
+  - name: Start and enable of httpd server
+    service: name=httpd state=started enabled=yes
+
+  - name: Creating of the web page
+    shell: 'touch /var/www/html/index.html'
+
+  - name: adding of the filling of the page
+    shell: 'echo "Welcome to my web server!" > /var/www/html/index.html'
+
+  - name: Installing pf the firewalld
+    yum: name=firewalld state=latest
+
+  - name: Opening of the ports
+    firewalld: service=http permanent=yes state=enabled
