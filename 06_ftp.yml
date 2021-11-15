@@ -1,0 +1,7 @@
+---
+- name: This playbook uses roles for deploying of the FTP server
+  become: yes
+  hosts: all
+
+  roles:
+          - ftp

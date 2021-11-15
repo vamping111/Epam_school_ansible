@@ -1,0 +1,17 @@
+---
+# tasks file for web_site
+- name: Install the correct web server for RHEL
+  import_tasks: redhat.yml
+  when: ansible_os_family == "RedHat"
+
+- name: Install the correct web server for Debian
+  import_tasks: debian.yml
+  when: ansible_os_family == "Debian"
+
+- name: Creating of the web page
+  shell: 'touch /var/www/html/index.html'
+  shell: 'echo "Welcome to my web server!" > /var/www/html/index.html'
+  notify:
+          - Restart httpd
+          - Restart apache2
+

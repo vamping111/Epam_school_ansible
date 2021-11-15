@@ -1,0 +1,8 @@
+---
+- apt:
+    name: "apache2"
+    state: present
+- apt:
+    name: "firewalld"
+    state: present
+- firewalld: service=apache2 permanent=yes state=enabled
