@@ -1,0 +1,33 @@
+---
+- name: This playbook creates users
+  hosts: all
+  become: yes
+
+  vars_files:
+          - 04_readme.txt
+
+  
+  tasks:
+  - name: Creating of the Alice user
+    user:
+     name: alice
+     comment:  alice@gmail.com
+     home: /home/alice
+     password: "{{ my_password | password_hash('sha512') }}"
+
+  - name: Creating of the Bob user
+    user:
+     name: bob
+     comment: bob@gmail.com
+     home: /home/bob
+     password: "{{ my_password | password_hash('sha512') }}"
+
+  - name: Creating of the Carol user
+    user:
+     name: carol
+     comment: carol@gmail.com
+     home: /home/carol
+     password: "{{ my_password | password_hash('sha512') }}"
+
+
+

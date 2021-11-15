@@ -1,3 +1,2 @@
-node1 ansible_host=172.31.2.37
-node2 ansible_host=172.31.11.167
-
+node1 ansible_host=172.31.2.216
+node2 ansible_host=172.31.9.85
