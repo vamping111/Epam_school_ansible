@@ -1,0 +1,48 @@
+---
+- block:
+
+  - name: Create user
+    user:
+      name: "{{ user_name }}"
+      password: "{{ user_password | password_hash('sha512') }}"
+      shell: /bin/false
+  
+  - name: Install Vsftpd
+    package:
+      name: vsftpd
+      state: present
+
+  - name: Install configuration file
+    template:
+      src:   etc_vsftpd_vsftpd.conf.j2
+      dest: /etc/vsftpd.conf
+      mode: '0600'
+    notify: restart vsftpd
+
+  - name: Creates directory
+    file:
+     path: /var/ftp/pub/upload
+     state: directory
+
+  - name: Open ports
+    shell: 'iptables -A INPUT -p tcp --dport 20:21'
+    shell: 'iptables -A INPUT -p tcp --dport 12000:12005'
+
+  - name: Enable SELinux
+    lineinfile:
+     path: /etc/selinux/config
+     regexp: '^SELINUX='
+     line: SELINUX=enforcing
+
+  - name: Reboot
+    reboot:
+  
+  - name: Wait for server to restart
+    wait_for:
+     port: 22
+     delay: 1
+     timeout: 300
+
+  - name: setsebool ftpd_anon_write on
+    shell: 'setsebool ftpd_anon_write on'
+...
